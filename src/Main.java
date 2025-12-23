@@ -9,11 +9,17 @@ public class Main {
         String Email_id = read.next();
 
         User user = new User(username,Email_id);
-        user.printdetails();
-        user.deactivate();
-        //deactivate user (first time)
-        user.deactivate();
-        //Print deactivate user
-        user.printdetails();
+        user.printDetails();
+
+        try {
+            user.login(false); // 1st failure
+            user.login(false); // 2nd failure
+            user.login(false); // 3rd failure → LOCKED
+            user.login(true);  // should throw exception
+        } catch (AccountLockedException e) {
+            System.out.println(e.getMessage());
+        }
+
+        user.printDetails();
         }
     }
