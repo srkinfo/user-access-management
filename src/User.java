@@ -5,11 +5,12 @@ public class User {
     private String email;
     private String status;
     private int failedAttempts;
+    private String role;
 
     private static final int MAX_ATTEMPTS = 3;
 
     // ===== Constructor =====
-    public User(String username, String email) {
+    public User(String username, String email, String role) {
 
         // Validation
         if (username == null || username.isEmpty()) {
@@ -20,9 +21,14 @@ public class User {
             throw new IllegalArgumentException("Invalid email");
         }
 
+        if (role == null || !(role.equals("ADMIN")|| role.equals("USER"))) {
+            throw new IllegalArgumentException("Role must be ADMIN or USER");
+        }
+
         this.username = username;
         this.email = email;
         this.status = "ACTIVE";
+        this.role = role;
         this.failedAttempts = 0;
     }
 
@@ -37,6 +43,10 @@ public class User {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getRole(){
+        return  role;
     }
 
     // ===== Login Logic =====
@@ -60,6 +70,7 @@ public class User {
         }
     }
 
+
     // ===== Deactivate User =====
     public void deactivate() {
         if (status.equals("ACTIVE")) {
@@ -70,10 +81,38 @@ public class User {
         }
     }
 
+    // =======UnlockUser Logic ======
+    public void unlockUser(User targetUser) throws UnauthorizedActionException{
+        if(!this.role.equals("ADMIN")){
+            throw new UnauthorizedActionException ("Only ADMIN can unlock user");
+        }
+        if (!targetUser.status.equals("LOCKED")) {
+            System.out.println("Target user is not locked");
+        }
+        targetUser.status = "ACTIVE";
+        targetUser.failedAttempts = 0;
+        System.out.println("User unlocked successfully by ADMIN");
+    }
+
+    // ====== ADMIN DEACTIVATES A USER =====
+
+    public void deactivateUser(User targetUser) throws UnauthorizedActionException{
+        if(!this.role.equals("ADMIN")){
+            throw new UnauthorizedActionException("Only ADMIN can deactivate users");
+        }
+        if(this == targetUser){
+            throw new UnauthorizedActionException("Admin cannot deactivate himself");
+        }
+
+            this.status = "DEACTIVATED";
+        System.out.println("User deactivated by ADMIN");
+    }
+
     // ===== Print Details =====
     public void printDetails() {
         System.out.println("Username: " + username);
         System.out.println("Email: " + email);
+        System.out.println("Role: "+ role);
         System.out.println("Status: " + status);
         System.out.println();
     }
