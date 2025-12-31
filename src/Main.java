@@ -14,7 +14,7 @@ public class Main {
         System.out.print("Enter admin email: ");
         String adminEmail = scanner.nextLine();
 
-        User admin = new User(adminUsername, adminEmail, "ADMIN");
+        User admin = new User(adminUsername, adminEmail, Role.ADMIN);
 
         // ===== Create NORMAL user =====
         System.out.println("\nCreate NORMAL user");
@@ -24,7 +24,7 @@ public class Main {
         System.out.print("Enter user email: ");
         String userEmail = scanner.nextLine();
 
-        User user = new User(userUsername, userEmail, "USER");
+        User user = new User(userUsername, userEmail, Role.USER);
 
         // ===== Print initial details =====
         System.out.println("\n--- Initial User Details ---");
