@@ -1,4 +1,4 @@
-**U**﻿ser Access Management System
+**User Access Management System**
 
 A pure backend Java project focused on user lifecycle, security rules, and business logic, built step by step to simulate real enterprise backend systems.
 

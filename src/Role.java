@@ -1,4 +1,4 @@
 public enum Role {
 
-    ADMIN, USER
+    ADMIN, USER;
 }
